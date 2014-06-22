@@ -32,7 +32,7 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 
 #set( $counter = 0 )
 
-	  public ${name}Action(#foreach ($param in $inputParameters) #if ($counter > 0) , #endif final $param.type $param.name #set( $counter = $counter + 1 )  #end	) {
+	  public ${name}Action(#foreach ($param in $inputParameters) #if ($counter > 0) , #end final $param.type $param.name #set( $counter = $counter + 1 )  #end	) {
 	    
 #foreach ($param in $inputParameters)
 		this.$param.name = $param.name;
