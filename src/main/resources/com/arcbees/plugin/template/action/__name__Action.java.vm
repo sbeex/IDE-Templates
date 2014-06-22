@@ -40,7 +40,7 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 	  }
 
 	#foreach ($param in $inputParameters)
-	  public $param.type $begFunction$param.name$endFunction {
+	  public $param.type $begFunction$param.funcName$endFunction {
 	    return this.$param.name;
 	  }	
 	#end
