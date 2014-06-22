@@ -1,0 +1,27 @@
+package ${package};
+
+import com.gwtplatform.dispatch.rpc.shared.Result;
+
+@SuppressWarnings("serial")
+public class ${name}ActionResult implements Result {
+
+	  private String response;
+
+		// TODO
+	  public ${name}ActionResult(final String response) {
+	    this.response = response;
+	  }
+
+	  /**
+	   * For serialization only.
+	   */
+	  @SuppressWarnings("unused")
+	  private ${name}ActionResult() {
+	  }
+
+		// TODO
+	  public String getResponse() {
+	    return response;
+	  }
+
+}
