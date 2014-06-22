@@ -10,7 +10,7 @@ package ${package};
 
 import $import;
 #foreach ($imp in $inputParameters)
-import $imp;
+import $imp.type;
 #end
 
 public class ${name}Action extends $extend<${name}ActionResult> {
