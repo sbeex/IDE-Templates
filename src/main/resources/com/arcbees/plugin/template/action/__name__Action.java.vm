@@ -6,6 +6,9 @@
 	#set( $import = "com.gwtplatform.dispatch.rpc.shared.UnsecuredActionImpl" )
 #end
 
+#set ($endFunction = '()')
+#set ($begFunction = 'get')
+
 package ${package};
 
 import $import;
@@ -37,7 +40,7 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 	  }
 
 	#foreach ($param in $inputParameters)
-	  public $param.type get($param.name)() {
+	  public $param.type $begFunction$param.name$endFunction {
 	    return this.$param.name;
 	  }	
 	#end
