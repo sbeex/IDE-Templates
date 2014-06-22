@@ -23,18 +23,25 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 	
 	}   
     
+	#foreach ($param in $inputParameters)
+	private $param.type $param.name;
+	#end
 
-	// TODO
-	private String textToServer;
 
-	  public SendTextToServer(final String textToServer) {
-	    this.textToServer = textToServer;
+	  public ${name}Action(#foreach ($param in $inputParameters) final $param.type $param.name, #end	) {
+	    
+		#foreach ($param in $inputParameters)
+		this.$param.name = $param.name;
+		#end	    
+	    
 	  }
 
-
-
-	  public String getTextToServer() {
-	    return textToServer;
+	#foreach ($param in $inputParameters)
+	  public $param.type get$param.name() {
+	    return $param.name;
 	  }	
+	#end
+
+
 	
 }
