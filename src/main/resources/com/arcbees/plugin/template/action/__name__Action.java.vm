@@ -23,22 +23,22 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 	
 	}   
     
-	#foreach ($param in $inputParameters)
+#foreach ($param in $inputParameters)
 	private $param.type $param.name;
-	#end
+#end
 
 
 	  public ${name}Action(#foreach ($param in $inputParameters) final $param.type $param.name, #end	) {
 	    
-		#foreach ($param in $inputParameters)
+#foreach ($param in $inputParameters)
 		this.$param.name = $param.name;
-		#end	    
+#end	    
 	    
 	  }
 
 	#foreach ($param in $inputParameters)
-	  public $param.type get$param.name() {
-	    return $param.name;
+	  public $param.type get($param.name)() {
+	    return this.$param.name;
 	  }	
 	#end
 
