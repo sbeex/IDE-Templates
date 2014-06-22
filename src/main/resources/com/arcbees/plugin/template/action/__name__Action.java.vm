@@ -9,6 +9,9 @@
 package ${package};
 
 import $import;
+#foreach ($imp in $inputParameters)
+import $imp;
+#end
 
 public class ${name}Action extends $extend<${name}ActionResult> {
     
