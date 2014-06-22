@@ -1,0 +1,38 @@
+#if ( $isSecuredAction == "true")
+	#set( $extend = "ActionImpl" )
+	#set( $import = "com.gwtplatform.dispatch.rpc.shared.ActionImpl" )
+#else
+	#set( $extend = "UnsecuredActionImpl" )
+	#set( $import = "com.gwtplatform.dispatch.rpc.shared.UnsecuredActionImpl" )
+#end
+
+package ${package};
+
+import $import;
+
+public class ${name}Action extends $extend<${name}ActionResult> {
+    
+	/**
+	* For serialization only.
+	*/
+	@SuppressWarnings("unused")
+	private ${name}Action() {
+	
+	}   
+    
+}
+
+	// TODO
+	private String textToServer;
+
+	  public SendTextToServer(final String textToServer) {
+	    this.textToServer = textToServer;
+	  }
+
+
+
+	  public String getTextToServer() {
+	    return textToServer;
+	  }	
+	
+}
