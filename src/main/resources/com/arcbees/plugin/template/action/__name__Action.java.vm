@@ -6,9 +6,15 @@
 	#set( $import = "com.gwtplatform.dispatch.rpc.shared.UnsecuredActionImpl" )
 #end
 
+#set ($endFunction = '()')
+#set ($begFunction = 'get')
+
 package ${package};
 
 import $import;
+#foreach ($imp in $imports)
+import $imp;
+#end
 
 public class ${name}Action extends $extend<${name}ActionResult> {
     
@@ -20,19 +26,26 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 	
 	}   
     
-}
+#foreach ($param in $inputParameters)
+	private $param.type $param.name;
+#end
 
-	// TODO
-	private String textToServer;
+#set( $counter = 0 )
 
-	  public SendTextToServer(final String textToServer) {
-	    this.textToServer = textToServer;
+	  public ${name}Action(#foreach ($param in $inputParameters) final $param.type $param.name #end	) {
+	    
+#foreach ($param in $inputParameters)
+		this.$param.name = $param.name;
+#end	    
+	    
 	  }
 
-
-
-	  public String getTextToServer() {
-	    return textToServer;
+	#foreach ($param in $inputParameters)
+	  public $param.type $begFunction$param.funcName$endFunction {
+	    return this.$param.name;
 	  }	
+	#end
+
+
 	
 }

@@ -1,0 +1,38 @@
+package ${package};
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import ${actionPackage}.${name}Action;
+import ${actionPackage}.${name}ActionResult;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.gwtplatform.dispatch.rpc.server.ExecutionContext;
+import com.gwtplatform.dispatch.rpc.server.actionhandler.ActionHandler;
+import com.gwtplatform.dispatch.shared.ActionException;
+
+
+public class ${name}ActionHandler implements ActionHandler<${name}Action, ${name}ActionResult> {
+	
+	@Inject
+	${name}ActionHandler(ServletContext servletContext, Provider<HttpServletRequest> requestProvider) {
+
+	}
+	
+	@Override
+	public ${name}ActionResult execute(${name}Action action, ExecutionContext context) throws ActionException {
+
+		return new ${name}ActionResult("Hello");
+	}
+	
+	@Override
+	public Class<${name}Action> getActionType() {
+		return ${name}Action.class;
+	}
+	
+	@Override
+	public void undo(${name}Action action, ${name}ActionResult result, ExecutionContext context) throws ActionException {
+	
+	}
+	
+}

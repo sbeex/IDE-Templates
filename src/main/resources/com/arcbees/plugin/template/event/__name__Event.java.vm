@@ -1,0 +1,42 @@
+public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
+
+	public interface ${name}Handler extends EventHandler {
+    	void on${name}(${name}Event event);
+	}
+ 
+  	private static Type<${name}Handler> TYPE = new Type<${name}Handler>();
+ 
+	public static void fire(HasEventBus source, String message) {
+    	if (TYPE != null) {
+      		source.fireEvent(new ${name}Event(message));
+    	}
+  	}
+ 
+  	public static Type<${name}Handler> getType() {
+		return TYPE;
+  	}
+ 
+#foreach ($param in $inputParameters)
+	private final $param.type $param.name;
+#end
+ 
+ 	// TODO
+	public ${name}Event(final String message) {
+    	this.message = message;
+  	}
+ 
+  	@Override
+  	public Type<${name}Handler> getAssociatedType() {
+    	return TYPE;
+  	}
+ 
+ 	// TODO
+  	public String getMessage() {
+    	return message;
+  	}
+ 
+  	@Override
+  	protected void dispatch(${name}Handler handler) {
+    	handler.on${name}(this);
+  	}
+}

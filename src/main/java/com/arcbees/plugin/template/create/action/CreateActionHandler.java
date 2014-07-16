@@ -28,18 +28,18 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
 import com.arcbees.plugin.template.domain.action.ActionOptions;
-import com.arcbees.plugin.template.domain.action.CreatedAction;
+import com.arcbees.plugin.template.domain.action.CreatedActionHandler;
 import com.arcbees.plugin.template.domain.action.RenderedTemplate;
 import com.arcbees.plugin.template.utils.VelocityUtils;
 import com.arcbees.plugin.velocity.VelocityEngineCustom;
 
-public class CreateAction {
-    public final static Logger logger = Logger.getLogger(CreateAction.class.getName());
+public class CreateActionHandler {
+    public final static Logger logger = Logger.getLogger(CreateActionHandler.class.getName());
             
-    public static CreatedAction run(ActionOptions actionOptions, boolean remote) throws Exception {
-        CreateAction createAction = new CreateAction(actionOptions, remote);
-        createAction.run();
-        return createAction.getCreatedAction();
+    public static CreatedActionHandler run(ActionOptions actionOptions, boolean remote) throws Exception {
+        CreateActionHandler createActionHandler = new CreateActionHandler(actionOptions, remote);
+        createActionHandler.run();
+        return createActionHandler.getCreatedActionHandler();
     }
 
    // private static final String BASE_REMOTE = "https://raw.github.com/ArcBees/IDE-Templates/1.0.0/src/main/resources/com/arcbees/plugin/template/action/";
@@ -49,16 +49,16 @@ public class CreateAction {
     private final ActionOptions actionOptions;
 
     private VelocityEngineCustom velocityEngine;
-    private CreatedAction createdAction;
+    private CreatedActionHandler createdActionHandler;
     private boolean remote;
 
-    private CreateAction(ActionOptions actionOptions, boolean remote) {
+    private CreateActionHandler(ActionOptions actionOptions, boolean remote) {
         this.actionOptions = actionOptions;
         this.remote = remote;
     }
 
     private void run() throws Exception {
-        createdAction = new CreatedAction();
+        createdActionHandler = new CreatedActionHandler();
         
         if (remote) {
             setupVelocityRemote();
@@ -92,22 +92,17 @@ public class CreateAction {
         }
     }
 
-    private CreatedAction getCreatedAction() {
-        return createdAction;
+    private CreatedActionHandler getCreatedActionHandler() {
+        return createdActionHandler;
     }
 
     private VelocityContext getBaseVelocityContext() {
         VelocityContext context = new VelocityContext();
 
         // base
-        context.put("package", actionOptions.getPackageName());
+        context.put("package", actionOptions.getHandlerPackageName());
+        context.put("actionPackage", actionOptions.getPackageName());
         context.put("name", actionOptions.getName());
-
-        context.put("inputParameters", actionOptions.getInputParameters());
-        
-        // extra options
-        context.put("isSecuredAction", actionOptions.isSecured());
-        context.put("imports", actionOptions.getImports());
 
         return context;
     }
@@ -117,9 +112,9 @@ public class CreateAction {
     }
 
     private void processAction() throws ResourceNotFoundException, ParseErrorException, Exception {
-        String fileName = "__name__Action.java.vm";
+        String fileName = "__name__ActionHandler.java.vm";
         RenderedTemplate rendered = processTemplate(fileName);
-        createdAction.setAction(rendered);
+        createdActionHandler.setActionHandler(rendered);
     }
 
     private RenderedTemplate processTemplate(String fileName) throws ResourceNotFoundException, ParseErrorException, Exception {

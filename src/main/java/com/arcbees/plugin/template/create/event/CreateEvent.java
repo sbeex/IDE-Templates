@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.arcbees.plugin.template.create.action;
+package com.arcbees.plugin.template.create.event;
 
 import java.io.StringWriter;
 import java.util.logging.Level;
@@ -27,38 +27,38 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-import com.arcbees.plugin.template.domain.action.ActionOptions;
-import com.arcbees.plugin.template.domain.action.CreatedAction;
-import com.arcbees.plugin.template.domain.action.RenderedTemplate;
+import com.arcbees.plugin.template.domain.event.RenderedTemplate;
+import com.arcbees.plugin.template.domain.event.CreatedEvent;
+import com.arcbees.plugin.template.domain.event.EventOptions;
 import com.arcbees.plugin.template.utils.VelocityUtils;
 import com.arcbees.plugin.velocity.VelocityEngineCustom;
 
-public class CreateAction {
-    public final static Logger logger = Logger.getLogger(CreateAction.class.getName());
+public class CreateEvent {
+    public final static Logger logger = Logger.getLogger(CreateEvent.class.getName());
             
-    public static CreatedAction run(ActionOptions actionOptions, boolean remote) throws Exception {
-        CreateAction createAction = new CreateAction(actionOptions, remote);
-        createAction.run();
-        return createAction.getCreatedAction();
+    public static CreatedEvent run(EventOptions eventOptions, boolean remote) throws Exception {
+        CreateEvent createEvent = new CreateEvent(eventOptions, remote);
+        createEvent.run();
+        return createEvent.getCreatedEvent();
     }
 
    // private static final String BASE_REMOTE = "https://raw.github.com/ArcBees/IDE-Templates/1.0.0/src/main/resources/com/arcbees/plugin/template/action/";
-    private static final String BASE_REMOTE = "https://raw.githubusercontent.com/sbeex/IDE-Templates/master/src/main/resources/com/arcbees/plugin/template/action/";
-    private final static String BASE_LOCAL = "./src/main/resources/com/arcbees/plugin/template/action/";
+    private static final String BASE_REMOTE = "https://raw.githubusercontent.com/sbeex/IDE-Templates/master/src/main/resources/com/arcbees/plugin/template/event/";
+    private final static String BASE_LOCAL = "./src/main/resources/com/arcbees/plugin/template/event/";
 
-    private final ActionOptions actionOptions;
+    private final EventOptions eventOptions;
 
     private VelocityEngineCustom velocityEngine;
-    private CreatedAction createdAction;
+    private CreatedEvent createdEvent;
     private boolean remote;
 
-    private CreateAction(ActionOptions actionOptions, boolean remote) {
-        this.actionOptions = actionOptions;
+    private CreateEvent(EventOptions eventOptions, boolean remote) {
+        this.eventOptions = eventOptions;
         this.remote = remote;
     }
 
     private void run() throws Exception {
-        createdAction = new CreatedAction();
+        createdEvent = new CreatedEvent();
         
         if (remote) {
             setupVelocityRemote();
@@ -92,34 +92,32 @@ public class CreateAction {
         }
     }
 
-    private CreatedAction getCreatedAction() {
-        return createdAction;
+    private CreatedEvent getCreatedEvent() {
+        return createdEvent;
     }
 
     private VelocityContext getBaseVelocityContext() {
         VelocityContext context = new VelocityContext();
 
         // base
-        context.put("package", actionOptions.getPackageName());
-        context.put("name", actionOptions.getName());
+        context.put("package", eventOptions.getPackageName());
+        context.put("name", eventOptions.getName());
 
-        context.put("inputParameters", actionOptions.getInputParameters());
+        context.put("inputParameters", eventOptions.getInputParameters());
         
-        // extra options
-        context.put("isSecuredAction", actionOptions.isSecured());
-        context.put("imports", actionOptions.getImports());
+        context.put("imports", eventOptions.getImports());
 
         return context;
     }
 
     private void process() throws ResourceNotFoundException, ParseErrorException, Exception {
-        processAction();
+        processEvent();
     }
 
-    private void processAction() throws ResourceNotFoundException, ParseErrorException, Exception {
-        String fileName = "__name__Action.java.vm";
+    private void processEvent() throws ResourceNotFoundException, ParseErrorException, Exception {
+        String fileName = "__name__Event.java.vm";
         RenderedTemplate rendered = processTemplate(fileName);
-        createdAction.setAction(rendered);
+        createdEvent.setEvent(rendered);
     }
 
     private RenderedTemplate processTemplate(String fileName) throws ResourceNotFoundException, ParseErrorException, Exception {
@@ -132,7 +130,7 @@ public class CreateAction {
     }
 
     private String renderFileName(String fileName) {
-        String name = actionOptions.getName();
+        String name = eventOptions.getName();
         name = name.replace(".vm", "");
         return fileName.replace("__name__", name);
     }
