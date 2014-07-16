@@ -1,3 +1,6 @@
+#set ($endFunction = '()')
+#set ($begFunction = 'get')
+
 public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
 
 	public interface ${name}Handler extends EventHandler {
@@ -20,9 +23,14 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
 	private final $param.type $param.name;
 #end
  
- 	// TODO
-	public ${name}Event(final String message) {
-    	this.message = message;
+#set( $first = true )
+
+	public ${name}Event(#foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) final $param.type $param.name #end	) { 	
+	
+#foreach ($param in $inputParameters)
+		this.$param.name = $param.name;
+#end	
+
   	}
  
   	@Override
@@ -31,9 +39,11 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
   	}
  
  	// TODO
-  	public String getMessage() {
-    	return message;
-  	}
+	#foreach ($param in $inputParameters)
+	  public $param.type $begFunction$param.funcName$endFunction {
+	    return this.$param.name;
+	  }	
+	#end
  
   	@Override
   	protected void dispatch(${name}Handler handler) {
