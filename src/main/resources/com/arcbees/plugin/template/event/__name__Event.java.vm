@@ -18,7 +18,7 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
     }
     
 #set( $first = true )    
-    public static void fire(HasHandlers source, #foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) $param.type $param.name #end) {
+    public static void fire(HasHandlers source #foreach ($param in $inputParameters)  ,$param.type $param.name #end) {
 #set( $first = true ) 
         source.fireEvent(new ${name}Event(#foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) $param.name #end));
     }
