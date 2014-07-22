@@ -18,11 +18,11 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
   	public static Type<${name}Handler> getType() {
 		return TYPE;
   	}
- 
+
 #foreach ($param in $inputParameters)
 	private final $param.type $param.name;
 #end
- 
+
 #set( $first = true )
 
 	public ${name}Event(#foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) final $param.type $param.name #end	) { 	
