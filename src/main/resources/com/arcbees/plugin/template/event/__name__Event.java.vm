@@ -14,8 +14,11 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
     public interface ${name}Handler extends EventHandler {
         public void onGlobalEvent(${name}Event event);
     }
-    public static void fire(HasHandlers source, String data) {
-        source.fireEvent(new ${name}Event(data));
+    
+#set( $first = true )    
+    public static void fire(HasHandlers source, #foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) final $param.type $param.name #end) {
+#set( $first = true ) 
+        source.fireEvent(new ${name}Event(#foreach ($param in $inputParameters)  #if ( !$first ),#end #set( $first = false ) final $param.type $param.name #end));
     }
 
     public static void fire(HasHandlers source, ${name}Event eventInstance) {
