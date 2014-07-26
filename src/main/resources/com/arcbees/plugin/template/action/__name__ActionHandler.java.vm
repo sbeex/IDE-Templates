@@ -14,6 +14,10 @@ import com.gwtplatform.dispatch.shared.ActionException;
 
 public class ${name}ActionHandler implements ActionHandler<${name}Action, ${name}ActionResult> {
 	
+#foreach ($param in $outputParameters)
+	private $param.type $param.name;
+#end
+	
 	@Inject
 	${name}ActionHandler(ServletContext servletContext, Provider<HttpServletRequest> requestProvider) {
 
@@ -22,7 +26,8 @@ public class ${name}ActionHandler implements ActionHandler<${name}Action, ${name
 	@Override
 	public ${name}ActionResult execute(${name}Action action, ExecutionContext context) throws ActionException {
 
-		return new ${name}ActionResult("Hello");
+		return new ${name}ActionResult(#foreach ($param in $outputParameters)  #if ( !$first ),#end #set( $first = false ) $param.name #end	);
+		
 	}
 	
 	@Override
