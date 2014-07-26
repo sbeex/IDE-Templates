@@ -63,4 +63,6 @@ public class ${name}Event extends GwtEvent<${name}Event.${name}Handler> {
     protected void dispatch(${name}Handler handler) {
         handler.onGlobalEvent(this);
     }
+
 }
+
