@@ -4,7 +4,10 @@
 package ${package};
 
 import com.gwtplatform.dispatch.rpc.shared.Result;
+
+#if($import != null)
 import $import;
+#end
 #foreach ($imp in $imports)
 import $imp;
 #end
