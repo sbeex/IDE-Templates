@@ -1,0 +1,16 @@
+package ${package};
+
+import com.gwtplatform.dispatch.rpc.server.actionvalidator.ActionValidator;
+import com.gwtplatform.dispatch.rpc.shared.Action;
+import com.gwtplatform.dispatch.rpc.shared.Result;
+import com.gwtplatform.dispatch.shared.ActionException;
+
+public class ${name}ActionValidator implements ActionValidator  {
+
+	@Override
+	public boolean isValid(Action<? extends Result> action) throws ActionException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+} 

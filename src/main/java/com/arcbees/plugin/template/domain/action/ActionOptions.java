@@ -9,6 +9,7 @@ public class ActionOptions {
     private String name;
     private String packageName;
     private String handlerPackageName;
+    private String validatorPackageName;
     private Boolean secured;
     
     private List<ActionParameter> inputParameters;
@@ -62,6 +63,8 @@ public class ActionOptions {
 		this.handlerPackageName = handlerPackageName;
 	}
 
+	
+	
 	public List<ActionParameter> getInputParameters() {
 		return inputParameters;
 	}
@@ -84,5 +87,13 @@ public class ActionOptions {
 
 	public void setImports(HashSet<String> imports) {
 		this.imports = imports;
+	}
+
+	public String getValidatorPackageName() {
+		return validatorPackageName;
+	}
+
+	public void setValidatorPackageName(String validatorPackageName) {
+		this.validatorPackageName = validatorPackageName;
 	}
 }

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.arcbees.plugin.template.create.event;
+package com.arcbees.plugin.template.create.action;
 
 import java.io.StringWriter;
 import java.util.logging.Level;
@@ -22,43 +22,42 @@ import java.util.logging.Logger;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
-import com.arcbees.plugin.template.domain.event.RenderedTemplate;
-import com.arcbees.plugin.template.domain.event.CreatedEvent;
-import com.arcbees.plugin.template.domain.event.EventOptions;
+import com.arcbees.plugin.template.domain.action.ActionOptions;
+import com.arcbees.plugin.template.domain.action.CreatedActionValidator;
+import com.arcbees.plugin.template.domain.action.RenderedTemplate;
 import com.arcbees.plugin.template.utils.VelocityUtils;
 import com.arcbees.plugin.velocity.VelocityEngineCustom;
 
-public class CreateEvent {
-    public final static Logger logger = Logger.getLogger(CreateEvent.class.getName());
+public class CreateActionValidator {
+    public final static Logger logger = Logger.getLogger(CreateActionValidator.class.getName());
             
-    public static CreatedEvent run(EventOptions eventOptions, boolean remote) throws Exception {
-        CreateEvent createEvent = new CreateEvent(eventOptions, remote);
-        createEvent.run();
-        return createEvent.getCreatedEvent();
+    public static CreatedActionValidator run(ActionOptions actionOptions, boolean remote) throws Exception {
+        CreateActionValidator createActionValidator = new CreateActionValidator(actionOptions, remote);
+        createActionValidator.run();
+        return createActionValidator.getCreatedActionValidator();
     }
 
    // private static final String BASE_REMOTE = "https://raw.github.com/ArcBees/IDE-Templates/1.0.0/src/main/resources/com/arcbees/plugin/template/action/";
-    private static final String BASE_REMOTE = "https://raw.githubusercontent.com/sbeex/IDE-Templates/1.0.1/src/main/resources/com/arcbees/plugin/template/event/";
-    private final static String BASE_LOCAL = "./src/main/resources/com/arcbees/plugin/template/event/";
+    private static final String BASE_REMOTE = "https://raw.githubusercontent.com/sbeex/IDE-Templates/master/src/main/resources/com/arcbees/plugin/template/action/";
+    private final static String BASE_LOCAL = "./src/main/resources/com/arcbees/plugin/template/action/";
 
-    private final EventOptions eventOptions;
+    private final ActionOptions actionOptions;
 
     private VelocityEngineCustom velocityEngine;
-    private CreatedEvent createdEvent;
+    private CreatedActionValidator createdActionValidator;
     private boolean remote;
 
-    private CreateEvent(EventOptions eventOptions, boolean remote) {
-        this.eventOptions = eventOptions;
+    private CreateActionValidator(ActionOptions actionOptions, boolean remote) {
+        this.actionOptions = actionOptions;
         this.remote = remote;
     }
 
     private void run() throws Exception {
-        createdEvent = new CreatedEvent();
+        createdActionValidator = new CreatedActionValidator();
         
         if (remote) {
             setupVelocityRemote();
@@ -92,32 +91,29 @@ public class CreateEvent {
         }
     }
 
-    private CreatedEvent getCreatedEvent() {
-        return createdEvent;
+    private CreatedActionValidator getCreatedActionValidator() {
+        return createdActionValidator;
     }
 
     private VelocityContext getBaseVelocityContext() {
         VelocityContext context = new VelocityContext();
 
         // base
-        context.put("package", eventOptions.getPackageName());
-        context.put("name", eventOptions.getName());
-
-        context.put("inputParameters", eventOptions.getInputParameters());
-        
-        context.put("imports", eventOptions.getImports());
+        context.put("package", actionOptions.getValidatorPackageName());
+        context.put("actionPackage", actionOptions.getPackageName());
+        context.put("name", actionOptions.getName());
 
         return context;
     }
 
     private void process() throws ResourceNotFoundException, ParseErrorException, Exception {
-        processEvent();
+        processAction();
     }
 
-    private void processEvent() throws ResourceNotFoundException, ParseErrorException, Exception {
-        String fileName = "__name__Event.java.vm";
+    private void processAction() throws ResourceNotFoundException, ParseErrorException, Exception {
+        String fileName = "__name__ActionValidator.java.vm";
         RenderedTemplate rendered = processTemplate(fileName);
-        createdEvent.setEvent(rendered);
+        createdActionValidator.setActionValidator(rendered);
     }
 
     private RenderedTemplate processTemplate(String fileName) throws ResourceNotFoundException, ParseErrorException, Exception {
@@ -130,7 +126,7 @@ public class CreateEvent {
     }
 
     private String renderFileName(String fileName) {
-        String name = eventOptions.getName();
+        String name = actionOptions.getName();
         name = name.replace(".vm", "");
         return fileName.replace("__name__", name);
     }
