@@ -18,13 +18,7 @@ import $imp;
 
 public class ${name}Action extends $extend<${name}ActionResult> {
     
-	/**
-	* For serialization only.
-	*/
-	@SuppressWarnings("unused")
-	private ${name}Action() {
-	
-	}   
+ 
     
 #foreach ($param in $inputParameters)
 	private $param.type $param.name;
@@ -39,6 +33,16 @@ public class ${name}Action extends $extend<${name}ActionResult> {
 #end	    
 	    
 	  }
+	  
+	  #if (!$first)
+	/**
+	* For serialization only.
+	*/
+	@SuppressWarnings("unused")
+	private ${name}Action() {
+	
+	}  
+	  #end	  
 
 	#foreach ($param in $inputParameters)
 	  public $param.type $begFunction$param.funcName$endFunction {
