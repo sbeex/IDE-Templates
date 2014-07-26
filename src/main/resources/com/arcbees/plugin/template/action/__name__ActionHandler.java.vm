@@ -11,6 +11,9 @@ import com.gwtplatform.dispatch.rpc.server.ExecutionContext;
 import com.gwtplatform.dispatch.rpc.server.actionhandler.ActionHandler;
 import com.gwtplatform.dispatch.shared.ActionException;
 
+#foreach ($imp in $imports)
+import $imp;
+#end
 
 public class ${name}ActionHandler implements ActionHandler<${name}Action, ${name}ActionResult> {
 	
