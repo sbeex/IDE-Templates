@@ -4,11 +4,14 @@
 package ${package};
 
 import com.gwtplatform.dispatch.rpc.shared.Result;
+import $import;
+#foreach ($imp in $imports)
+import $imp;
+#end
 
 @SuppressWarnings("serial")
 public class ${name}ActionResult implements Result {
-
-	  
+ 
 #foreach ($param in $outputParameters)
 	private $param.type $param.name;
 #end
