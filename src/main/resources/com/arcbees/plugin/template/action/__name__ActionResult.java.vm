@@ -23,7 +23,7 @@ public class ${name}ActionResult implements Result {
 	    
 	  }
 	  
-	  #if ($first)
+	  #if (!$first)
 	  /**
 	   * For serialization only.
 	   */
